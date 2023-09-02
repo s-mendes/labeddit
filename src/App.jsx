@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Router from './routes/Router';
+import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import GlobalState from './contexts/GlobalState';
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyles = createGlobalStyle `
+::-webkit-scrollbar {
+  height: .5rem;
+  width: .5rem;
+}
+::-webkit-scrollbar-thumb {
+  background: #797978;
+  border-radius: 0;
+}
+::-webkit-scrollbar-track {
+  background: #f2efe9;
+}
+`;
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ChakraProvider>
+      <GlobalState>
+        <GlobalStyles />
+        <Router />
+
+      </GlobalState>
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
