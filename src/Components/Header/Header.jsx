@@ -6,7 +6,7 @@ import { goToHome, goToLogin } from '../../routes/coordinator';
 
 function Header( props ) {
 
-  const { isMainPage, isSignupPage } = props;
+  const { isMainPage, isSignupPage, isCommentPage } = props;
 
   function logout () {
     localStorage.removeItem('token');
@@ -19,12 +19,14 @@ function Header( props ) {
     <Container p="0" maxW="100%">
       <Flex background="#EDEDED" height="50px" alignItems="center" padding="20px">
         <CloseButton 
+          onClick={() => goToHome(navigate)}
           color="#A3A3A3" 
-          pointerEvents="none"
-          opacity="0"
+          opacity={ isCommentPage ? '1' : '0'}
+          pointerEvents={ isCommentPage ? 'auto' : 'none'}
+              
         />
         <Spacer />
-        <Link><Image src="./logo.svg" boxSize="30px" alt="logo" onClick={() => goToHome(navigate)}/></Link>
+        <Link><Image src="/logo.svg" boxSize="30px" alt="logo" onClick={() => goToHome(navigate)}/></Link>
         <Spacer />
         { isMainPage && (<Link fontSize="md" fontWeight="600" color="#4088CB" onClick={logout}>Logout</Link>)}
         { isSignupPage && (<Link fontSize="md" fontWeight="600" color="#4088CB" onClick={() => goToLogin(navigate)}>Entrar</Link>)}

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import Header from '../Components/Header/Header';
 import { motion } from 'framer-motion';
-import GradientButton from '../Components/GradientButton/GradientButton';
 import CreatePost from '../Components/CreatePost/CreatePost';
 import { Box, Container, Divider, Skeleton, Stack } from '@chakra-ui/react';
 import Post from '../Components/Post/Post';
@@ -23,23 +22,25 @@ function MainPage() {
       transition={{duration: 0.5}}
     >
       <Header isMainPage={true}/>
-      <GradientButton />
       <CreatePost />
       <Container>
         <Box  mt="5"  bgGradient="linear(to-r, #FF6489, #F9B24E)">
           <Divider />
         </Box>
       </Container>
-      {load || posts.map( post => (
-        <Post 
-          key={post.id}
-          id={post.id}
-          content={post.content}
-          creator={post.creator.name}
-          likes={post.likes}
-          dislikes={post.dislikes}
-        />
-      )).reverse()}
+      {load || posts.map( post => {
+        return (
+          <Post 
+            key={post.id}
+            id={post.id}
+            content={post.content}
+            creator={post.creator.name}
+            likes={post.likes}
+            dislikes={post.dislikes}
+            totalComments={post.comments}
+          />
+        );})
+        .reverse()}
       { load && (
         <Container >
           <Stack>

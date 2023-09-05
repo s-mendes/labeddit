@@ -1,40 +1,35 @@
 import { Box, Button, Container, Flex, Icon, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Text, Textarea, useDisclosure } from '@chakra-ui/react';
 import { TbArrowBigDown, TbArrowBigUp, TbArrowBigDownFilled, TbArrowBigUpFilled } from 'react-icons/tb';
-import { GoComment } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import React, { useEffect, useState } from 'react';
 import convertToK from '../../util/convertToK';
-import { deletePost, editPost, findLikeDislikes, postLikeOrDislike } from '../../API/labbEdditAPI';
+import { commentLikeOrDislike, deleteComment, editComment, findLikeDislikeComments } from '../../API/labbEdditAPI';
 import { decodeToken } from 'react-jwt';
 import useForms from '../../hooks/useForms';
-import { useNavigate } from 'react-router-dom';
-import { goToPost } from '../../routes/coordinator';
 
-function Post( props ) {
+function Comment( props ) {
 
-  const { content, creator, likes, dislikes, id, totalComments } = props;
+  const { content, creator, likes, dislikes, id } = props;
 
   const { form, onChange } = useForms({
     content: content,
   });
   
-  const [ postContent, setPostContent ] = useState(content);
-  const [ postLikes, setPostLikes ] = useState(likes);
-  const [ postDislikes, setPostDislikes ] = useState(dislikes);
+  const [ commentContent, setCommentContent ] = useState(content);
+  const [ commentLikes, setCommentLikes ] = useState(likes);
+  const [ commentDislikes, setCommentDislikes ] = useState(dislikes);
   const [ alreadyLike, setAlreadyLike ] = useState(false);
   const [ alreadyDislike, setAlreadyDislike ] = useState(false);
   const [ editIsActive, setEditIsActive ] = useState(false);
-  const [ postDelete, setPostDelete ] = useState(false);
+  const [ commentDelete, setCommentDelete ] = useState(false);
   // const [ buttonIsActive, setButtonIsActive ] = useState(false); // editar pra deixar o botão interagir somente depois que carregar se já deu like/dislike
-  
-  const navigate = useNavigate();
   
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   async function verifyLikes() {
-    const likeOrDislike = await findLikeDislikes(id);
+    const likeOrDislike = await findLikeDislikeComments(id);
     if(likeOrDislike === 'ALREADY LIKED') {
       setAlreadyLike(true);
     } else if (likeOrDislike === 'ALREADY DISLIKED') {
@@ -49,35 +44,35 @@ function Post( props ) {
   function likeOrDislike( value ) {
     if ( value === true ) {
       if ( alreadyDislike ) {
-        setPostLikes(postLikes+2);
+        setCommentLikes(commentLikes+2);
         setAlreadyDislike(false);
         setAlreadyLike(true);
       } else if ( !alreadyLike ) {
-        setPostLikes(postLikes+1);
+        setCommentLikes(commentLikes+1);
         setAlreadyLike(true);
       } else {
-        setPostLikes(postLikes-1);
+        setCommentLikes(commentLikes-1);
         setAlreadyLike(false);
       }
       
     } else if ( value === false ) { 
       if ( alreadyLike ){
-        setPostLikes(postLikes-2);
+        setCommentLikes(commentLikes-2);
         setAlreadyLike(false);
         setAlreadyDislike(true);
       }
       else if ( !alreadyDislike ) {
-        setPostDislikes(postDislikes+1);
+        setCommentDislikes(commentDislikes+1);
         setAlreadyDislike(true);
       } else {
-        setPostDislikes(postDislikes-1);
+        setCommentDislikes(commentDislikes-1);
         setAlreadyDislike(false, id);
       }
     }
-    postLikeOrDislike(value, id);
+    commentLikeOrDislike(value, id);
   }
 
-  function renderPost () {
+  function renderComment () {
     return (
       <>
         <Flex>
@@ -97,7 +92,7 @@ function Post( props ) {
           fontSize="18px"
           mb="3"
         >
-          {postContent}
+          {commentContent}
         </Text>
         <Flex gap="5px">
           <Box 
@@ -123,7 +118,7 @@ function Post( props ) {
                 color="#6F6F6F"
                 fontSize="12px"
                 lineHeight="26px"
-              >{postLikes-postDislikes < 1000 ? postLikes-postDislikes : convertToK(postLikes-postDislikes)}</Text>
+              >{commentLikes-commentDislikes < 1000 ? commentLikes-commentDislikes : convertToK(commentLikes-commentDislikes)}</Text>
               <Spacer />
               <Icon 
                 as={!alreadyDislike ? TbArrowBigDown : TbArrowBigDownFilled} 
@@ -135,33 +130,6 @@ function Post( props ) {
                 }}
                 cursor="pointer"
               />
-            </Flex>
-          </Box>
-          <Box
-            w="65px"
-            h="28px"
-            border="0.8px solid #ECECEC"
-            borderRadius="28px"
-            px="2.5"
-            color="#6F6F6F"
-            cursor="pointer"
-            onClick={() => goToPost(navigate, id)}
-            _hover={{
-              color: '#4088CB'
-            }}
-          >
-            <Flex alignItems="center">
-              <Icon 
-                as={GoComment} 
-                boxSize={5}
-              />
-              <Spacer />
-              <Text
-                fontSize="12px"
-                lineHeight="26px"
-              >
-                {totalComments}
-              </Text>
             </Flex>
           </Box>
         </Flex>
@@ -227,7 +195,7 @@ function Post( props ) {
                       </Button>
                       <Button 
                         colorScheme="red" 
-                        onClick={handleDeletePost}
+                        onClick={handleDeleteComment}
                         size="sm"
                         transition="background 0.3s ease"
                       >DELETAR</Button>
@@ -246,17 +214,17 @@ function Post( props ) {
     setEditIsActive(!editIsActive);
   }
   
-  function handleDeletePost() {
-    setPostDelete(true);
-    deletePost(id);
+  function handleDeleteComment() {
+    setCommentDelete(true);
+    deleteComment(id);
   }
 
   function renderEditForm() {
 
     function handleSendFormEdited() {
-      setPostContent(form.content);
+      setCommentContent(form.content);
       handleEditForm();
-      editPost( form.content, id );
+      editComment( form.content, id );
     }
 
     return (
@@ -314,7 +282,7 @@ function Post( props ) {
 
   return ( 
     <>
-      {postDelete ? (<> </>) :(
+      {commentDelete ? (<> </>) :(
         <Container>
           <Box 
             mt="5"
@@ -323,7 +291,7 @@ function Post( props ) {
             backgroundColor="#FBFBFB"
             borderRadius="12px"
           >
-            {!editIsActive ? renderPost() : renderEditForm()}
+            {!editIsActive ? renderComment() : renderEditForm()}
     
           </Box>
         </Container>
@@ -332,4 +300,4 @@ function Post( props ) {
   );
 }
 
-export default Post;
+export default Comment;
