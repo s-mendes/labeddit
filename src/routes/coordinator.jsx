@@ -9,3 +9,7 @@ export function goToLogin(navigate) {
 export function goToSignUp(navigate) {
   navigate('/signup');
 }
+
+export function goToPost(navigate, postId) {
+  navigate(`/post/${postId}`);
+}
