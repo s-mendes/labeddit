@@ -5,6 +5,7 @@ import ErrorPage from '../Pages/ErrorPage';
 import LoginPage from '../Pages/LoginPage';
 import SingupPage from '../Pages/SingupPage';
 import { AnimatePresence } from 'framer-motion';
+import PostPage from '../Pages/PostPage';
 
 
 function Router() {
@@ -25,6 +26,11 @@ function Router() {
         <Route path="/login" element={ 
           <AnimatePresence mode="wait">
             <LoginPage key="login"/> 
+          </AnimatePresence>
+        } />
+        <Route path="/post/:postId" element={ 
+          <AnimatePresence mode="wait">
+            <PostPage key="post"/> 
           </AnimatePresence>
         } />
         <Route path="*" element={ <ErrorPage /> } />

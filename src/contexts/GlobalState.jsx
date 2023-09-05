@@ -1,6 +1,6 @@
 import React, { useEffect, useState }  from 'react';
 import GlobalContext from './GlobalContext';
-import { fetchPosts } from '../API/labbEdditAPI';
+import { fetchAllCommentsById, fetchPosts } from '../API/labbEdditAPI';
 
 
 function GlobalState(props) {
@@ -16,7 +16,16 @@ function GlobalState(props) {
       setLoad(true);
       const posts = await fetchPosts();
       const result = await Promise.all(posts);
-      setPosts(result);
+  
+      const postWithComments = await Promise.all(
+        result.map(async (post) => {
+          const comments = await fetchAllCommentsById(post.id);
+          const totalComments = comments.length;
+          return { ...post, comments: totalComments };
+        })
+      );
+  
+      setPosts(postWithComments);
       setLoad(false);
     } catch (error) {
       console.error(error);
