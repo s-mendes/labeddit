@@ -11,7 +11,7 @@
 
 ## Objetivo
 
-O usuário deve ser capaz de ordenar os itens em ordem crescente e decrescente, filtrar por valor mínimo e máximo, filtrar pelo nome do produto, adicionar e remover os itens no carrinho.
+Uma rede social com o objetivo de promover a conexão e interação entre pessoas. Quem se cadastrar no aplicativo poderá criar e curtir publicações.
 
 ## Acesso a aplicação
 
