@@ -16,3 +16,7 @@ Uma rede social com o objetivo de promover a conexão e interação entre pessoa
 ## Acesso a aplicação
 
 Link: [acesse aqui](https://s-social-network.netlify.app/)
+
+## Link do repositório do Backend para este projeto
+
+Link: [acesse aqui](https://github.com/s-mendes/social-network-backend)
