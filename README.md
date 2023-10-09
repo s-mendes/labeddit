@@ -1,4 +1,4 @@
-# Projeto React ECommerce
+# Projeto React Labeddit
 
 ## Técnologias Utilizadas
 
