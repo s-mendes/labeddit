@@ -1,8 +1,18 @@
-# React + Vite
+# Projeto React ECommerce
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Técnologias Utilizadas
 
-Currently, two official plugins are available:
+- HTML
+- CSS
+- JavaScript
+- React.JS
+- Styled-Components
+- React Hooks
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Objetivo
+
+O usuário deve ser capaz de ordenar os itens em ordem crescente e decrescente, filtrar por valor mínimo e máximo, filtrar pelo nome do produto, adicionar e remover os itens no carrinho.
+
+## Acesso a aplicação
+
+Link: [acesse aqui](https://s-social-network.netlify.app/)
